@@ -140,3 +140,41 @@ query {
   add(numbers: [10, 51.2])
 }
 ```
+
+## 17. Working with Arrays: Part II
+
+스칼라타입을 엘리먼트로 가지는 배열과는 다르게 커스텀타입을 엘리먼트로 가지는 배열을 쿼리할 때는 원하는 필드를 명시해야 한다
+
+```graphql
+query {
+  users {
+    id
+    name
+    email
+  }
+}
+```
+
+```json
+{
+  "data": {
+    "users": [
+      {
+        "id": "1",
+        "name": "Andrew",
+        "email": "andrew@example.com"
+      },
+      {
+        "id": "2",
+        "name": "Sarah",
+        "email": "sarah@example.com"
+      },
+      {
+        "id": "3",
+        "name": "Mike",
+        "email": "mike@example.com"
+      }
+    ]
+  }
+}
+```
