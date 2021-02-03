@@ -9,7 +9,10 @@ const users = [
   { id: '3', name: 'Mike', email: 'mike@example.com' },
 ];
 
-const posts = [{ id: '1', title: 'GraphQL 101', body: 'hi World!', published: false }];
+const posts = [
+  { id: '1', title: 'GraphQL 101', body: 'hi World!', published: false, author: '1' },
+  { id: '2', title: 'GraphQL 102', body: 'hello!', published: true, author: '3' },
+];
 
 // Type definitions (schema)
 const typeDefs = `
@@ -32,6 +35,7 @@ const typeDefs = `
     title: String!
     body: String!
     published: Boolean!
+    author: User!
   }
 `;
 
@@ -62,6 +66,11 @@ const resolvers = {
         emai: 'mike@example.com',
         age: 30,
       };
+    },
+  },
+  Post: {
+    author(parent, args, ctx, info) {
+      return users.find((user) => user.id === parent.author);
     },
   },
 };

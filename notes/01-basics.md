@@ -178,3 +178,59 @@ query {
   }
 }
 ```
+
+## 18. Relational Data: Basics
+
+두 커스텀 타입 사이의 관계를 맺어줄 수 있다.
+
+먼저 스키마가 아래와 같다면
+
+```graphql
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  age: Int
+}
+
+type Post {
+  id: ID!
+  title: String!
+  body: String!
+  published: Boolean!
+  author: User!
+}
+```
+
+쿼리할 떄는 다음과 같이 할 수 있다
+
+```graphql
+query {
+  posts {
+    title
+    author {
+      name
+      email
+    }
+  }
+}
+```
+
+이를 위해서는 resolver를 설정해야 하는데, graphql에서는 posts 를 응답하기 위해 posts resolver 함수를 실행하다가 Post 타입의 필드 중 author가 스칼라 타입이 아니라 커스텀 타입인 것을 발견하면 Post.author resolver를 호출하여 미리 정의된 또다른 resolver를 호출하게 된다.
+
+이를 위해서는 다음과 같이 resolver를 설정해야 한다.
+Post.author 함수의 parent는 author 필드를 가지는 해당 post 객체를 나타낸다.
+
+```javascript
+const resolvers = {
+  Query: {
+    posts(parent, args, ctx, info) {
+      // ...
+    },
+  Post: {
+    author(parent, args, ctx, info) {
+      return users.find((user) => user.id === parent.author);
+    },
+  },
+};
+```
