@@ -44,3 +44,23 @@ const resolvers = {
   },
 };
 ```
+
+## 27. The Input Type
+
+Mutation을 만들다 보면 입력 파라미터로 많은 종류의 값이 들어오는 경우나, 동일한 파라미터들이 반복되는 경우가 있다.
+
+이런 경우에는 input 타입을 만들어서 사용할 수 있다. input 타입은 type 객체처럼 만들어서 사용하면 되는데,
+
+input 타입에는 커스텀 타입을 사용할 수 없고 기본 스칼라 타입, 리스트, 다른 input 타입만 사용할 수 있다.
+
+```graphql
+type Mutation {
+  createUser(data: createUserInput): User!
+}
+
+input createUserInput {
+  name: String!
+  email: String!
+  age: Int
+}
+```
