@@ -4,18 +4,18 @@ import { v4 as uuidv4 } from 'uuid';
 // 스칼라 타입의 종류 : String, Boolean, Int, Float, ID
 
 // Demo user data
-const users = [
+let users = [
   { id: '1', name: 'Andrew', email: 'andrew@example.com', age: 27 },
   { id: '2', name: 'Sarah', email: 'sarah@example.com' },
   { id: '3', name: 'Mike', email: 'mike@example.com' },
 ];
 
-const posts = [
+let posts = [
   { id: '11', title: 'GraphQL 101', body: 'hi World!', published: false, author: '1' },
   { id: '12', title: 'GraphQL 102', body: 'hello!', published: true, author: '3' },
 ];
 
-const comments = [
+let comments = [
   { id: '21', text: 'Comment 1', author: '1', post: '12' },
   { id: '22', text: 'Comment 2', author: '3', post: '11' },
   { id: '23', text: 'Comment 3', author: '2', post: '12' },
@@ -34,6 +34,7 @@ const typeDefs = `
 
   type Mutation {
     createUser(data: createUserInput): User!
+    deleteUser(id: ID!): User!
     createPost(data: createPostInput): Post!
     createComment(data: createCommentInput): Comment!
   }
@@ -130,6 +131,29 @@ const resolvers = {
 
       users.push(user);
       return user;
+    },
+    deleteUser(parent, args, ctx, info) {
+      const userIndex = users.findIndex((user) => user.id === args.id);
+
+      if (userIndex === -1) {
+        throw new Error('User not found');
+      }
+
+      const [deletedUser] = users.splice(userIndex, 1);
+
+      posts = posts.filter((post) => {
+        const match = post.author === args.id;
+
+        if (match) {
+          comments = comments.filter((comment) => comment.post !== post.id);
+        }
+
+        return !match;
+      });
+
+      comments = comments.filter((comment) => comment.author !== args.id);
+
+      return deletedUser;
     },
     createPost(parent, args, ctx, info) {
       const userExists = users.some((user) => user.id === args.data.author);
