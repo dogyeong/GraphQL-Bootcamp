@@ -6,8 +6,20 @@ let users = [
 ];
 
 let posts = [
-  { id: '11', title: 'GraphQL 101', body: 'hi World!', published: false, author: '1' },
-  { id: '12', title: 'GraphQL 102', body: 'hello!', published: true, author: '3' },
+  {
+    id: '11',
+    title: 'GraphQL 101',
+    body: 'hi World!',
+    published: false,
+    author: '1',
+  },
+  {
+    id: '12',
+    title: 'GraphQL 102',
+    body: 'hello!',
+    published: true,
+    author: '3',
+  },
 ];
 
 let comments = [
