@@ -11,12 +11,11 @@ const Query = {
     }
     return posts.filter((post) => {
       return (
-        post.title.toLowerCase().includes(args.query.toLowerCase()) ||
-        post.body.toLowerCase().includes(args.query.toLowerCase())
+        post.title.toLowerCase().includes(args.query.toLowerCase()) || post.body.toLowerCase().includes(args.query.toLowerCase())
       );
     });
   },
-  comments() {
+  comments(parent, args, { db: { comments } }, info) {
     return comments;
   },
   me() {

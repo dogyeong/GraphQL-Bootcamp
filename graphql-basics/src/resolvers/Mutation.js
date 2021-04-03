@@ -94,6 +94,19 @@ const Mutation = {
 
     return deletedPosts[0];
   },
+  updatePost(parent, { id, data }, { db: { posts } }, info) {
+    const post = posts.find((post) => post.id === id);
+
+    if (!post) throw new Error('Post not found');
+
+    if (typeof data.title === 'string') post.title = data.title;
+
+    if (typeof data.body === 'string') post.body = data.body;
+
+    if (typeof data.published === 'boolean') post.published = data.published;
+
+    return post;
+  },
   createComment(parent, args, { db: { users, posts, comments } }, info) {
     const postExists = posts.some((post) => post.id === args.data.post && post.published);
     const userExists = users.some((user) => user.id === args.data.author);
@@ -110,16 +123,25 @@ const Mutation = {
     comments.push(comment);
     return comment;
   },
-  deleteComment(parent, args, { db: { users, posts, comments } }, info) {
+  deleteComment(parent, args, { db: { comments } }, info) {
     const commentIndex = comments.findIndex((comment) => comment.id === args.id);
 
     if (commentIndex === -1) {
       throw new Error('Comment not found');
     }
 
-    const deletedComments = comment.splice(commentIndex, 1);
+    const deletedComments = comments.splice(commentIndex, 1);
 
     return deletedComments[0];
+  },
+  updateComment(parent, { id, data }, { db: { comments } }, info) {
+    const comment = comments.find((comment) => comment.id === id);
+
+    if (!comment) throw new Error('Comment not found');
+
+    if (typeof data.text === 'string') comment.text = data.text;
+
+    return comment;
   },
 };
 
