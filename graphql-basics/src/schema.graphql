@@ -63,6 +63,11 @@ type PostSubscriptionPayload {
   data: Post!
 }
 
+type CommentSubscriptionPayload {
+  mutation: String!
+  data: Comment!
+}
+
 type Query {
   users(query: String): [User!]!
   posts(query: String): [Post!]!
@@ -84,6 +89,6 @@ type Mutation {
 }
 
 type Subscription {
-  comment(postId: ID!): Comment!
+  comment(postId: ID!): PostSubscriptionPayload!
   post: PostSubscriptionPayload!
 }
