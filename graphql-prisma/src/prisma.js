@@ -6,40 +6,38 @@ const prisma = new Prisma({
 });
 
 const createPostForUser = async (authorId, data) => {
+  const userExists = await prisma.exists.User({ id: authorId });
+
+  if (!userExists) {
+    throw new Error('User not found');
+  }
+
   const post = await prisma.mutation.createPost(
     {
       data: { ...data, author: { connect: { id: authorId } } },
     },
-    '{ id }',
+    '{ author { id email name posts { id title published } } }',
   );
 
-  const user = await prisma.query.user(
-    {
-      where: { id: authorId },
-    },
-    '{ id email name posts { id title published } }',
-  );
-
-  return user;
+  return post.author;
 };
 
 const updatePostForUser = async (postId, data) => {
+  const postExists = await prisma.exists.Post({ id: postId });
+
+  if (!postExists) {
+    throw new Error('Post not found');
+  }
+
   const post = await prisma.mutation.updatePost(
     {
       where: { id: postId },
       data,
     },
-    '{ author { id } }',
+    '{ author { id email name posts { id title published } } }',
   );
 
-  const user = await prisma.query.user(
-    {
-      where: { id: post.author.id },
-    },
-    '{ id email name posts { id title published } }',
-  );
-
-  return user;
+  return post.author;
 };
 
 export default prisma;
