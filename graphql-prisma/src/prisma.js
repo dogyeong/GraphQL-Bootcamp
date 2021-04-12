@@ -40,4 +40,10 @@ const updatePostForUser = async (postId, data) => {
   return post.author;
 };
 
+// createPostForUser('cknd60bnd004t0a30y5ampnqa', {
+//   title: 'BASE!',
+//   body: '',
+//   published: true,
+// });
+
 export default prisma;
