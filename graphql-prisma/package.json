@@ -14,7 +14,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "graphql-cli": "^2.16.4",
-    "graphql-yoga": "^0.0.0",
+    "graphql-yoga": "^1.14.10",
     "nodemon": "^2.0.7",
     "prisma-binding": "^2.1.1",
     "uuid": "^8.3.2"
