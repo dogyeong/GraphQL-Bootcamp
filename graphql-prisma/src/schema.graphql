@@ -32,7 +32,6 @@ input createCommentInput {
 input UpdateUserInput {
   name: String!
   email: String!
-  age: Int
 }
 
 input UpdateCommentInput {
