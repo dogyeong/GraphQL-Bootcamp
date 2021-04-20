@@ -18,9 +18,9 @@ input createPostInput {
 }
 
 input UpdatePostInput {
-  title: String!
-  body: String!
-  published: Boolean!
+  title: String
+  body: String
+  published: Boolean
 }
 
 input createCommentInput {
@@ -30,12 +30,12 @@ input createCommentInput {
 }
 
 input UpdateUserInput {
-  name: String!
-  email: String!
+  name: String
+  email: String
 }
 
 input UpdateCommentInput {
-  text: String!
+  text: String
 }
 
 type User {

@@ -10,6 +10,7 @@ const Query = {
 
     return prisma.query.users(null, info);
   },
+
   posts(parent, args, { prisma }, info) {
     const opArgs = {};
 
@@ -21,16 +22,9 @@ const Query = {
 
     return prisma.query.posts(null, info);
   },
+
   comments(parent, args, { prisma }, info) {
     return prisma.query.comments(null, null);
-  },
-  me() {
-    return {
-      id: '3',
-      name: 'Mike',
-      emai: 'mike@example.com',
-      age: 30,
-    };
   },
 };
 
