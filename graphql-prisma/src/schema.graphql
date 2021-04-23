@@ -7,7 +7,7 @@ enum MutationType {
 input createUserInput {
   name: String!
   email: String!
-  age: Int
+  password: String!
 }
 
 input createPostInput {
