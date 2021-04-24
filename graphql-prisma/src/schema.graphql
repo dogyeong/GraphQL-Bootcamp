@@ -4,6 +4,11 @@ enum MutationType {
   DELETED
 }
 
+type AuthPayload {
+  user: User!
+  token: String!
+}
+
 input createUserInput {
   name: String!
   email: String!
@@ -82,7 +87,7 @@ type Query {
 }
 
 type Mutation {
-  createUser(data: createUserInput): User!
+  createUser(data: createUserInput): AuthPayload!
   deleteUser(id: ID!): User!
   updateUser(id: ID!, data: UpdateUserInput): User!
   createPost(data: createPostInput): Post!

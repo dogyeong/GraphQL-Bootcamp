@@ -16,6 +16,7 @@
     "bcryptjs": "^2.4.3",
     "graphql-cli": "^2.16.4",
     "graphql-yoga": "^1.14.10",
+    "jsonwebtoken": "^8.3.0",
     "nodemon": "^2.0.7",
     "prisma-binding": "^2.1.1",
     "uuid": "^8.3.2"
