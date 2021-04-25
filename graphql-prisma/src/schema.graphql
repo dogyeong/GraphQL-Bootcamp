@@ -9,6 +9,11 @@ type AuthPayload {
   token: String!
 }
 
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
 input createUserInput {
   name: String!
   email: String!
@@ -87,6 +92,7 @@ type Query {
 }
 
 type Mutation {
+  login(data: LoginUserInput!): AuthPayload!
   createUser(data: createUserInput): AuthPayload!
   deleteUser(id: ID!): User!
   updateUser(id: ID!, data: UpdateUserInput): User!
