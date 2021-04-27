@@ -58,36 +58,52 @@ const Mutation = {
     );
   },
 
-  deletePost(parent, { id }, { prisma, req }, info) {
+  async deletePost(parent, { id }, { prisma, req }, info) {
     const userId = getUserId(req);
-    const postExists = prisma.exists.Post({ where: { id, author: { id: userId } } });
+    const postExists = await prisma.exists.Post({ where: { id, author: { id: userId } } });
 
     if (!postExists) throw new Error('Unable to delete post');
 
     return prisma.mutation.deletePost({ where: { id } }, info);
   },
 
-  updatePost(parent, { data }, { prisma, req }, info) {
+  async updatePost(parent, { id, data }, { prisma, req }, info) {
     const userId = getUserId(req);
-    return prisma.mutation.updatePost({ where: { id: userId }, data }, info);
+    const postExists = await prisma.exists.Post({ where: { id, author: { id: userId } } });
+
+    if (!postExists) throw new Error('Unable to update post');
+
+    return prisma.mutation.updatePost({ where: { id }, data }, info);
   },
 
-  createComment(parent, { data: { text, author, post } }, { prisma }, info) {
+  createComment(parent, { data: { text, post } }, { prisma, req }, info) {
+    const userId = getUserId(req);
+
     return prisma.mutation.createComment(
       {
         text,
-        author: { connect: { id: author } },
+        author: { connect: { id: userId } },
         post: { connect: { id: post } },
       },
       info,
     );
   },
 
-  deleteComment(parent, { id }, { prisma }, info) {
+  async deleteComment(parent, { id }, { prisma, req }, info) {
+    const userId = getUserId(req);
+    const commentExists = await prisma.exists.Comment({ where: { id, author: { id: userId } } });
+
+    if (!commentExists) throw new Error('Unable to delete comment');
+
     return prisma.mutation.deleteComment({ where: { id } }, info);
   },
 
-  updateComment(parent, { id, data }, { prisma }, info) {
+  async updateComment(parent, { id, data }, { prisma, req }, info) {
+    const userId = getUserId(req);
+    const commentExists = await prisma.exists.Comment({ where: { id, author: { id: userId } } });
+
+    if (!commentExists) throw new Error('Unable to update comment');
+
     return prisma.mutation.updateComment({ where: { id }, data }, info);
   },
 };
