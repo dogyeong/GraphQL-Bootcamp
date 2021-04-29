@@ -14,15 +14,24 @@ const Query = {
   },
 
   posts(parent, args, { prisma }, info) {
-    const opArgs = {};
+    const opArgs = { where: { published: true } };
 
     if (args.query) {
-      opArgs.where = {
-        OR: [{ title_contains: args.query }, { body_contains: args.query }],
-      };
+      opArgs.where.OR = [{ title_contains: args.query }, { body_contains: args.query }];
     }
 
-    return prisma.query.posts(null, info);
+    return prisma.query.posts(opArgs, info);
+  },
+
+  myPosts(parent, args, { prisma, req }, info) {
+    const userId = getUserId(req);
+    const opArgs = { where: { author: { id: userId } } };
+
+    if (args.query) {
+      opArgs.where.OR = [{ title_contains: args.query }, { body_contains: args.query }];
+    }
+
+    return prisma.query.posts(opArgs, info);
   },
 
   comments(parent, args, { prisma }, info) {
