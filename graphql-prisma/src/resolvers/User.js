@@ -1,13 +1,25 @@
 import { getUserId } from '../utils/getUserId';
 
 const User = {
-  email(parent, args, { req }, info) {
-    const userId = getUserId(req, false);
+  posts: {
+    fragment: 'fragment userId on User { id }',
+    resolve(parent, args, { prisma }, info) {
+      return prisma.query.posts({
+        where: { published: true, author: { id: parent.id } },
+      });
+    },
+  },
 
-    if (userId && userId === parent.id) {
-      return parent.email;
-    }
-    return null;
+  email: {
+    fragment: 'fragment userId on User { id }',
+    resolve(parent, args, { req }, info) {
+      const userId = getUserId(req, false);
+
+      if (userId && userId === parent.id) {
+        return parent.email;
+      }
+      return null;
+    },
   },
 };
 
