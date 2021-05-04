@@ -14,6 +14,7 @@ const server = new GraphQLServer({
       req,
     };
   },
+  fragmentReplacements,
 });
 
 server.start(() => {
